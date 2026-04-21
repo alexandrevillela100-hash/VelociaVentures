@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Center — Velocia Ventures</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #03C8B5; --teal-bright: #27DDDF; --teal-dark: #1997A8;
+    --ink: #080e10; --bg-dark: #013E43;
+    --bg-a: #080e10; --bg-b: #0d1a1c; --bg-c: #111f22;
+    --surface2: #132022; --surface3: #1a2c30;
+    --border: rgba(3,200,181,0.09); --border-hi: rgba(3,200,181,0.20);
+    --text: #e2edeb; --text-muted: #78a49f; --text-dim: #375e5a;
+    --teal-glow: rgba(3,200,181,0.11); --teal-dim: rgba(3,200,181,0.07);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Barlow', sans-serif; background: var(--bg-a); color: var(--text); overflow-x: hidden; line-height: 1.6; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 18px 60px; border-bottom: 1px solid var(--border); background: rgba(8,14,16,0.96); backdrop-filter: blur(24px); }
+  .nav-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .nav-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); line-height: 1.2; }
+  .nav-wordmark span { display: block; font-weight: 300; font-size: 10px; letter-spacing: 0.2em; color: var(--teal); text-transform: uppercase; font-family: 'DM Mono', monospace; }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--teal); }
+  .nav-cta { color: var(--teal) !important; border: 1px solid rgba(3,200,181,0.4); padding: 8px 22px; border-radius: 2px; }
+
+  .page-header { padding: 140px 60px 80px; background: linear-gradient(180deg, var(--bg-a) 0%, var(--bg-b) 100%); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  .page-header::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(3,200,181,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(3,200,181,0.025) 1px, transparent 1px); background-size: 64px 64px; }
+  .page-header-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+  .page-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .page-tag::before { content: ''; width: 22px; height: 1px; background: var(--teal); opacity: 0.5; }
+  .page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(44px, 6vw, 80px); font-weight: 300; line-height: 1.0; margin-bottom: 20px; }
+  .page-title em { font-style: italic; color: var(--teal); }
+  .page-lead { font-size: 17px; font-weight: 300; color: var(--text-muted); max-width: 560px; line-height: 1.8; margin-bottom: 40px; }
+  .filter-bar { display: flex; flex-wrap: wrap; }
+  .f-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); background: none; border: 1px solid var(--border); border-right: none; padding: 10px 22px; cursor: pointer; transition: all 0.2s; }
+  .f-btn:last-child { border-right: 1px solid var(--border); }
+  .f-btn:hover, .f-btn.active { background: var(--teal-dim); color: var(--teal); border-color: var(--border-hi); }
+
+  .main-content { max-width: 1200px; margin: 0 auto; padding: 64px 60px 120px; }
+
+  /* FEATURED */
+  .featured-article { display: grid; grid-template-columns: 1fr 1fr; border-radius: 12px; overflow: hidden; background: var(--bg-b); margin-bottom: 64px; min-height: 480px; text-decoration: none; color: inherit; transition: box-shadow 0.3s ease; }
+  .featured-article:hover { box-shadow: 0 32px 80px rgba(0,0,0,0.55); }
+  .feat-img { position: relative; overflow: hidden; }
+  .feat-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; filter: brightness(0.65); }
+  .featured-article:hover .feat-img img { transform: scale(1.04); filter: brightness(0.78); }
+  .feat-img-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(3,200,181,0.1) 0%, transparent 60%); }
+  .feat-label { position: absolute; top: 28px; left: 28px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; background: rgba(3,200,181,0.9); color: var(--ink); padding: 6px 14px; border-radius: 2px; }
+  .feat-body { padding: 52px 48px; display: flex; flex-direction: column; justify-content: center; }
+  .feat-type { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
+  .feat-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 3vw, 38px); font-weight: 400; line-height: 1.2; color: var(--text); margin-bottom: 18px; }
+  .feat-excerpt { font-size: 15px; font-weight: 300; color: var(--text-muted); line-height: 1.8; margin-bottom: 32px; }
+  .feat-meta { display: flex; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid var(--border); }
+  .feat-date { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); }
+  .feat-read { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); display: flex; align-items: center; gap: 8px; transition: gap 0.2s; }
+  .featured-article:hover .feat-read { gap: 14px; }
+
+  .grid-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 48px; }
+
+  /* Airbnb-style cards */
+  .art-card { text-decoration: none; color: inherit; display: flex; flex-direction: column; border-radius: 12px; overflow: hidden; background: var(--bg-b); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .art-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+  .art-card-img { height: 210px; overflow: hidden; position: relative; background: var(--surface2); }
+  .art-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; filter: brightness(0.7) saturate(0.85); }
+  .art-card:hover .art-card-img img { transform: scale(1.05); filter: brightness(0.85) saturate(1); }
+  .art-card-img-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(13,26,28,0.7) 100%); }
+  .art-card-body { padding: 24px 24px 28px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .art-type { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; align-self: flex-start; }
+  .t-market-analysis { color: var(--teal); background: var(--teal-dim); }
+  .t-infratech-thesis { color: #8ab4d4; background: rgba(138,180,212,0.1); }
+  .t-portfolio-deep-dive { color: #d4a8ff; background: rgba(212,168,255,0.1); }
+  .t-founder-interview { color: #3dd68c; background: rgba(61,214,140,0.1); }
+  .t-quarterly-letter { color: #f0c674; background: rgba(240,198,116,0.1); }
+  .art-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; line-height: 1.3; color: var(--text); flex: 1; }
+  .art-excerpt { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+  .art-meta { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid var(--border); margin-top: auto; }
+  .art-date { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); }
+  .art-arrow { color: var(--teal); transition: transform 0.2s; }
+  .art-card:hover .art-arrow { transform: translateX(4px); }
+  .art-card-wide { grid-column: span 2; flex-direction: row; }
+  .art-card-wide .art-card-img { height: auto; width: 280px; flex-shrink: 0; border-radius: 0; }
+  .art-card-wide .art-card-body { padding: 32px; }
+  .art-card-wide .art-title { font-size: 24px; }
+
+  /* Empty / loading / error states */
+  .state-msg { text-align: center; padding: 80px 20px; font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--text-muted); line-height: 1.5; }
+  .state-msg .state-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); display: block; margin-bottom: 14px; }
+  .state-msg a { color: var(--teal); text-decoration: none; border-bottom: 1px solid var(--teal); }
+  .state-error-detail { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); margin-top: 16px; line-height: 1.6; }
+
+  .newsletter { background: var(--bg-dark); border-top: 1px solid var(--border); padding: 80px 60px; }
+  .newsletter-inner { max-width: 680px; margin: 0 auto; text-align: center; }
+  .newsletter-title { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; line-height: 1.2; margin-bottom: 16px; }
+  .newsletter-title em { font-style: italic; color: var(--teal); }
+  .newsletter-sub { font-size: 15px; color: var(--text-muted); margin-bottom: 12px; font-weight: 300; }
+  .newsletter-embed { display: flex; justify-content: center; margin: 0 auto; }
+  .newsletter-embed iframe { width: 630px; max-width: 100%; height: 327px; margin: 0; border: 0; background: transparent; border-radius: 2px; }
+
+  footer { background: var(--bg-a); border-top: 1px solid var(--border); padding: 48px 60px 32px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.06em; }
+  .footer-back a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); text-decoration: none; }
+
+  @media (max-width: 900px) {
+    nav { padding: 14px 24px; } .nav-links { display: none; }
+    .page-header { padding: 110px 24px 60px; }
+    .main-content { padding: 40px 24px 80px; }
+    .featured-article { grid-template-columns: 1fr; }
+    .feat-img { height: 260px; }
+    .articles-grid { grid-template-columns: 1fr; }
+    .art-card-wide { grid-column: span 1; flex-direction: column; }
+    .art-card-wide .art-card-img { width: 100%; height: 200px; }
+    .newsletter { padding: 60px 24px; }
+    footer { padding: 36px 24px; flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg height="34" viewBox="-5.1 0 241.5 228.1" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#03c8b5" d="M118.2,228c-13.1,0.1-25.9-7-32.4-19.4L4.2,53.2c-9.3-17.8-2.5-39.7,15.3-49C24.8,1.3,30.6,0,36.3,0C49.4,0,62,7.1,68.5,19.4l49.7,94.6l-31.9,60.8c-9.3,17.8-2.5,39.7,15.3,49C106.8,226.6,112.5,228,118.2,228z"/>
+      <path fill="#1997a8" d="M134.8,223.8c-5.3,2.8-11,4.1-16.7,4.2c-5.6,0-11.3-1.4-16.7-4.2c-17.8-9.3-24.6-31.3-15.3-49l31.9-60.8l31.9,60.8C159.4,192.5,152.6,214.5,134.8,223.8z M216.9,4.2C211.5,1.4,205.7,0,200,0c-13.1,0-25.7,7.1-32.2,19.4c-2.8,5.4-4.2,11.2-4.2,16.9c0,13.1,7.1,25.7,19.4,32.2c17.8,9.3,39.7,2.5,49-15.3c2.8-5.4,4.2-11.2,4.2-16.9C236.4,23.3,229.3,10.7,216.9,4.2z"/>
+    </svg>
+    <div class="nav-wordmark">Velocia Ventures<span>InfraTech Investment</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#home">Home</a></li>
+    <li><a href="index.html#opportunity">Opportunity</a></li>
+    <li><a href="index.html#thesis">Investment Thesis</a></li>
+    <li><a href="index.html#manifesto">Manifesto</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="knowledge-center.html" class="active">Knowledge Center</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="page-tag">Knowledge Center</div>
+    <h1 class="page-title">InfraTech <em>Insights</em></h1>
+    <p class="page-lead">Research, analysis, and perspectives on the companies, technologies, and capital flows shaping the next generation of AI infrastructure.</p>
+    <div class="filter-bar" id="filter-bar">
+      <button class="f-btn active" data-filter="all">All</button>
+      <button class="f-btn" data-filter="market-analysis">Market Analysis</button>
+      <button class="f-btn" data-filter="infratech-thesis">InfraTech Thesis</button>
+      <button class="f-btn" data-filter="portfolio-deep-dive">Portfolio Deep Dive</button>
+      <button class="f-btn" data-filter="founder-interview">Founder Interview</button>
+      <button class="f-btn" data-filter="quarterly-letter">Quarterly Letter</button>
+    </div>
+  </div>
+</div>
+
+<div class="main-content" id="main-content">
+  <div class="state-msg" id="loading-state">
+    <span class="state-tag">Loading</span>
+    Pulling the latest from Velocia's Knowledge Center…
+  </div>
+</div>
+
+<div class="newsletter">
+  <div class="newsletter-inner">
+    <div class="newsletter-title">Stay Ahead of <em>InfraTech</em></div>
+    <p class="newsletter-sub">Monthly perspectives on AI infrastructure investing, market signals, and portfolio insights — delivered to your inbox.</p>
+    <div class="newsletter-embed">
+      <iframe src="https://subscribe-forms.beehiiv.com/703c6d45-771c-4101-828e-853b4d7f5249" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- Beehiiv scripts: embed sizing + attribution tracking -->
+<script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+<script async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
+
+<footer>
+  <div class="footer-copy">© 2025 Velocia Ventures. All rights reserved. · For informational purposes only.</div>
+  <div class="footer-back"><a href="index.html">← Back to Velocia Ventures</a></div>
+</footer>
+
+<script>
+  /* --------------------------------------------------------------------
+   * Sanity integration
+   *
+   * On page load we fetch published articles from Velocia's Sanity
+   * project and render them into the page. Nothing about the design
+   * changes — we just swap the content source.
+   * -------------------------------------------------------------- */
+
+  const SANITY = {
+    projectId: '6relgvmz',
+    dataset: 'velocia_production',
+    apiVersion: '2024-05-15',
+  };
+
+  // GROQ query — grab everything we need for the listing in one call.
+  const QUERY = `*[_type == "article" && defined(publishedAt) && publishedAt <= now()] | order(publishedAt desc) {
+    _id,
+    title,
+    subtitle,
+    "slug": slug.current,
+    author,
+    publishedAt,
+    category,
+    tags,
+    excerpt,
+    featured,
+    "heroImageUrl": heroImage.asset->url,
+    "heroImageAlt": heroImage.alt
+  }`;
+
+  const CATEGORY_LABELS = {
+    'market-analysis': 'Market Analysis',
+    'infratech-thesis': 'InfraTech Thesis',
+    'portfolio-deep-dive': 'Portfolio Deep Dive',
+    'founder-interview': 'Founder Interview',
+    'quarterly-letter': 'Quarterly Letter',
+  };
+
+  // Fallback hero images per category, so cards without a hero image still look decent.
+  const FALLBACK_IMAGES = {
+    'market-analysis': 'https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1000&q=80',
+    'infratech-thesis': 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=700&q=80',
+    'portfolio-deep-dive': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+    'founder-interview': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80',
+    'quarterly-letter': 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80',
+  };
+
+  let allArticles = [];
+  let activeFilter = 'all';
+
+  async function fetchArticles() {
+    const url = `https://${SANITY.projectId}.apicdn.sanity.io/v${SANITY.apiVersion}/data/query/${SANITY.dataset}?query=${encodeURIComponent(QUERY)}`;
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`Sanity API returned ${res.status}: ${await res.text()}`);
+    }
+    const body = await res.json();
+    return body.result || [];
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  }
+
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function articleHref(slug) {
+    return `article.html?slug=${encodeURIComponent(slug)}`;
+  }
+
+  function renderFeatured(article) {
+    const imgUrl = article.heroImageUrl || FALLBACK_IMAGES[article.category] || FALLBACK_IMAGES['market-analysis'];
+    const imgAlt = article.heroImageAlt || article.title;
+    const categoryLabel = CATEGORY_LABELS[article.category] || 'Article';
+    const dateStr = formatDate(article.publishedAt);
+    return `
+      <a href="${articleHref(article.slug)}" class="featured-article" data-category="${escapeHtml(article.category)}">
+        <div class="feat-img">
+          <img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(imgAlt)}">
+          <div class="feat-img-overlay"></div>
+          <div class="feat-label">Featured</div>
+        </div>
+        <div class="feat-body">
+          <div class="feat-type">${escapeHtml(categoryLabel)}${dateStr ? ' · ' + escapeHtml(dateStr) : ''}</div>
+          <div class="feat-title">${escapeHtml(article.title)}</div>
+          <div class="feat-excerpt">${escapeHtml(article.excerpt || article.subtitle || '')}</div>
+          <div class="feat-meta">
+            <span class="feat-date">${escapeHtml(article.author || '')}</span>
+            <span class="feat-read">Read article →</span>
+          </div>
+        </div>
+      </a>
+    `;
+  }
+
+  function renderCard(article, wide) {
+    const imgUrl = article.heroImageUrl || FALLBACK_IMAGES[article.category] || FALLBACK_IMAGES['market-analysis'];
+    const imgAlt = article.heroImageAlt || article.title;
+    const categoryLabel = CATEGORY_LABELS[article.category] || 'Article';
+    const dateStr = formatDate(article.publishedAt);
+    const wideClass = wide ? ' art-card-wide' : '';
+    return `
+      <a href="${articleHref(article.slug)}" class="art-card${wideClass}" data-category="${escapeHtml(article.category)}">
+        <div class="art-card-img">
+          <img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(imgAlt)}">
+          <div class="art-card-img-overlay"></div>
+        </div>
+        <div class="art-card-body">
+          <span class="art-type t-${escapeHtml(article.category)}">${escapeHtml(categoryLabel)}</span>
+          <div class="art-title">${escapeHtml(article.title)}</div>
+          <div class="art-excerpt">${escapeHtml(article.excerpt || '')}</div>
+          <div class="art-meta">
+            <span class="art-date">${escapeHtml(dateStr)}${article.author ? ' · ' + escapeHtml(article.author) : ''}</span>
+            <span class="art-arrow">→</span>
+          </div>
+        </div>
+      </a>
+    `;
+  }
+
+  function render(articles) {
+    const main = document.getElementById('main-content');
+
+    const filtered = activeFilter === 'all'
+      ? articles
+      : articles.filter((a) => a.category === activeFilter);
+
+    if (filtered.length === 0) {
+      main.innerHTML = `
+        <div class="state-msg">
+          <span class="state-tag">No articles yet</span>
+          ${activeFilter === 'all'
+            ? 'Published articles will appear here. Open <a href="https://velociaventures.sanity.studio" target="_blank">Sanity Studio</a> to write and publish the first one.'
+            : 'No articles in this category yet.'}
+        </div>`;
+      return;
+    }
+
+    // Featured = first featured:true article; otherwise first article
+    const featured = filtered.find((a) => a.featured) || filtered[0];
+    const rest = filtered.filter((a) => a._id !== featured._id);
+
+    // Case-study grid: portfolio-deep-dive category shown in its own section below
+    // (only surface when viewing 'all'; otherwise everything lives in one grid)
+    const caseStudies = activeFilter === 'all'
+      ? rest.filter((a) => a.category === 'portfolio-deep-dive')
+      : [];
+    const mainArticles = activeFilter === 'all'
+      ? rest.filter((a) => a.category !== 'portfolio-deep-dive')
+      : rest;
+
+    // Uniform portrait cards (image on top, text below) — no wide alternation.
+    const renderGrid = (list) => list.map((a) => renderCard(a, false)).join('');
+
+    let html = '';
+    html += renderFeatured(featured);
+
+    if (mainArticles.length > 0) {
+      html += `<div class="grid-label"><span>Latest Articles</span><span>${mainArticles.length} article${mainArticles.length === 1 ? '' : 's'}</span></div>`;
+      html += `<div class="articles-grid">${renderGrid(mainArticles)}</div>`;
+    }
+
+    if (caseStudies.length > 0) {
+      html += `<div class="grid-label" style="margin-top:32px;"><span>Case Studies</span><span>${caseStudies.length} case${caseStudies.length === 1 ? '' : 's'}</span></div>`;
+      html += `<div class="articles-grid">${renderGrid(caseStudies)}</div>`;
+    }
+
+    main.innerHTML = html;
+  }
+
+  function renderError(err) {
+    const main = document.getElementById('main-content');
+    const isCors = /fetch|network|cors/i.test(String(err && err.message));
+    main.innerHTML = `
+      <div class="state-msg">
+        <span class="state-tag">Couldn't load articles</span>
+        ${isCors
+          ? 'Your browser was blocked from reading Velocia\'s Sanity project. You likely need to add this website\'s URL to your Sanity project\'s CORS origins.'
+          : 'Something went wrong loading articles from Sanity.'}
+        <div class="state-error-detail">${escapeHtml(String(err && err.message || err))}</div>
+      </div>`;
+  }
+
+  // Filter bar
+  document.getElementById('filter-bar').addEventListener('click', (e) => {
+    const btn = e.target.closest('.f-btn');
+    if (!btn) return;
+    document.querySelectorAll('.f-btn').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    render(allArticles);
+  });
+
+  // Bootstrap
+  fetchArticles()
+    .then((articles) => { allArticles = articles; render(articles); })
+    .catch((err) => { console.error('[Velocia] Sanity fetch failed:', err); renderError(err); });
+</script>
+</body>
+</html>

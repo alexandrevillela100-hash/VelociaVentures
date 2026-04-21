@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 170" width="540" height="170">
+  <!-- Wordmark "Geofusion" -->
+  <text x="0" y="92" font-family="'Helvetica Neue', Arial, sans-serif" font-size="84" font-weight="500" fill="#33505B" letter-spacing="-2">Geofusion</text>
+  <!-- Teal triangle accent above 'i' -->
+  <polygon points="320,26 339,26 329.5,40" fill="#1CA4C2"/>
+  <!-- Tagline "uma empresa cortex" -->
+  <text x="203" y="128" font-family="'Helvetica Neue', Arial, sans-serif" font-size="22" fill="#6C8088" letter-spacing="0.3">uma empresa <tspan font-weight="700" fill="#33505B">cortex</tspan></text>
+  <!-- Colorful triangle cluster (right side) -->
+  <g transform="translate(432, 18)">
+    <!-- top: pink/red -->
+    <polygon points="0,0 36,0 18,28" fill="#E94D65"/>
+    <!-- upper-right: blue -->
+    <polygon points="40,0 76,0 58,28" fill="#1EA6D6"/>
+    <!-- middle-left: yellow (pointing right) -->
+    <polygon points="0,32 28,50 0,68" fill="#F4BE27"/>
+    <!-- middle-right: green -->
+    <polygon points="40,32 76,32 58,60" fill="#8FC53E"/>
+    <!-- bottom: orange -->
+    <polygon points="18,72 54,72 36,100" fill="#EF7523"/>
+  </g>
+</svg>

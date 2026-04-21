@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velocia Ventures — InfraTech Investment</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:        #03C8B5;
+    --teal-bright: #27DDDF;
+    --teal-dark:   #1997A8;
+    --teal-deep:   #006058;
+    --ink:         #080e10;
+    --bg-dark:     #013E43;
+    --bg-a:        #080e10;
+    --bg-b:        #0d1a1c;
+    --bg-c:        #111f22;
+    --surface2:    #132022;
+    --surface3:    #1a2c30;
+    --border:      rgba(3,200,181,0.09);
+    --border-hi:   rgba(3,200,181,0.20);
+    --text:        #e2edeb;
+    --text-muted:  #78a49f;
+    --text-dim:    #375e5a;
+    --teal-glow:   rgba(3,200,181,0.11);
+    --teal-dim:    rgba(3,200,181,0.07);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Barlow', sans-serif; background: var(--bg-a); color: var(--text); overflow-x: hidden; line-height: 1.6; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 22px 60px; border-bottom: 1px solid transparent; transition: all 0.4s ease; }
+  nav.scrolled { background: rgba(8,14,16,0.96); border-bottom-color: var(--border); backdrop-filter: blur(24px); padding: 14px 60px; }
+  .nav-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .nav-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); line-height: 1.2; }
+  .nav-wordmark span { display: block; font-weight: 300; font-size: 10px; letter-spacing: 0.2em; color: var(--teal); text-transform: uppercase; font-family: 'DM Mono', monospace; }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-cta { color: var(--teal) !important; border: 1px solid rgba(3,200,181,0.4); padding: 8px 22px; border-radius: 2px; transition: all 0.2s !important; }
+  .nav-cta:hover { background: var(--teal-glow); border-color: var(--teal) !important; }
+
+  /* HERO */
+  .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 0 100px; overflow: hidden; background: var(--bg-a); }
+  .hero-bg { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=80'); background-size: cover; background-position: center 30%; filter: brightness(0.28); }
+  .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,14,16,0.25) 0%, rgba(8,14,16,0.55) 55%, var(--bg-a) 100%); }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(3,200,181,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(3,200,181,0.03) 1px, transparent 1px); background-size: 64px 64px; }
+  .hero-content { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 60px; width: 100%; }
+  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 24px; display: flex; align-items: center; gap: 14px; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
+  .hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--teal); opacity: 0.6; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(56px, 8vw, 110px); font-weight: 300; line-height: 0.95; letter-spacing: -0.02em; max-width: 900px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.9s 0.45s forwards; }
+  .hero-title em { font-style: italic; color: var(--teal); }
+  .hero-sub { font-size: 17px; font-weight: 300; color: rgba(226,237,235,0.72); max-width: 520px; line-height: 1.8; margin-bottom: 48px; opacity: 0; animation: fadeUp 0.9s 0.6s forwards; }
+  .hero-actions { display: flex; align-items: center; gap: 20px; opacity: 0; animation: fadeUp 0.9s 0.75s forwards; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--teal); color: var(--ink); font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 14px 32px; border-radius: 2px; text-decoration: none; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--teal-bright); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(3,200,181,0.28); }
+  .btn-ghost { display: inline-flex; align-items: center; gap: 10px; color: rgba(226,237,235,0.6); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: color 0.2s; }
+  .btn-ghost:hover { color: var(--teal); }
+  .btn-ghost svg { transition: transform 0.2s; }
+  .btn-ghost:hover svg { transform: translateX(4px); }
+  .btn-outline { display: inline-flex; align-items: center; gap: 10px; color: var(--text-muted); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--border-hi); padding: 14px 32px; border-radius: 2px; text-decoration: none; transition: all 0.2s; }
+  .btn-outline:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  section { position: relative; }
+  .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 60px; }
+  .section-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section-tag::before { content: ''; width: 22px; height: 1px; background: var(--teal); opacity: 0.5; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4vw, 60px); font-weight: 300; line-height: 1.1; margin-bottom: 20px; }
+  .section-title em { font-style: italic; color: var(--teal); }
+  .section-lead { font-size: 16px; font-weight: 300; color: var(--text-muted); line-height: 1.8; max-width: 560px; }
+
+  /* OPPORTUNITY — bg-b */
+  .opportunity { padding: 120px 0; background: var(--bg-b); }
+  .opp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 60px; }
+  .stat-mosaic { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .stat-card { background: var(--bg-c); padding: 32px 28px; position: relative; overflow: hidden; transition: background 0.3s; cursor: default; }
+  .stat-card:hover { background: var(--surface3); }
+  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--teal), transparent); opacity: 0; transition: opacity 0.3s; }
+  .stat-card:hover::before { opacity: 1; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 46px; font-weight: 300; color: var(--text); line-height: 1; margin-bottom: 6px; }
+  .stat-unit { color: var(--teal); font-size: 26px; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .stat-desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+  .opp-points { list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+  .opp-points li { display: flex; gap: 14px; font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+  .opp-points li::before { content: '→'; color: var(--teal); flex-shrink: 0; margin-top: 1px; }
+
+  /* WHAT IS INFRATECH — bg-c, full bleed */
+  .what-is { background: var(--bg-c); padding: 120px 0; }
+  .what-inner { max-width: 1280px; margin: 0 auto; padding: 0 60px; }
+  .what-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center; }
+  .what-left { display: flex; flex-direction: column; }
+  .what-left .section-title { margin-bottom: 20px; }
+  .what-left .section-lead { margin-bottom: 8px; }
+  .what-bullets { list-style: none; margin-top: 28px; display: flex; flex-direction: column; gap: 20px; }
+  .what-bullets li { display: flex; gap: 16px; font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+
+  /* InfraTech stack diagram (right column of What is InfraTech) */
+  .stack-diagram { width: 100%; display: flex; flex-direction: column; gap: 2px; border-radius: 12px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.45), 0 0 0 1px var(--border-hi); }
+  .stack-diagram .band { padding: 22px 22px 24px; position: relative; }
+  .stack-diagram .band-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .stack-diagram .band-label::before { content: ''; width: 18px; height: 1px; background: var(--teal); opacity: 0.55; flex-shrink: 0; }
+  .stack-diagram .band-outer { background: radial-gradient(circle at 18% 20%, rgba(3,200,181,0.08), transparent 50%), var(--bg-b); }
+  .stack-diagram .icon-row { display: grid; gap: 10px 6px; align-items: start; }
+  .stack-diagram .icon-row.cols-7 { grid-template-columns: repeat(7, 1fr); }
+  .stack-diagram .icon-row.cols-6 { grid-template-columns: repeat(6, 1fr); }
+  .stack-diagram .icon-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
+  .stack-diagram .icon-circle { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border-hi); background: rgba(3,200,181,0.04); display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease; }
+  .stack-diagram .icon-item:hover .icon-circle { transform: translateY(-2px); background: rgba(3,200,181,0.10); box-shadow: 0 6px 18px rgba(3,200,181,0.18); }
+  .stack-diagram .icon-circle svg { width: 18px; height: 18px; stroke: var(--teal); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .stack-diagram .icon-label { font-family: 'Barlow', sans-serif; font-size: 9.5px; font-weight: 400; color: var(--text); line-height: 1.25; letter-spacing: 0.01em; }
+  .stack-diagram .band-focus { background: linear-gradient(135deg, rgba(3,200,181,0.18) 0%, rgba(25,151,168,0.14) 100%), var(--surface3); padding: 22px 22px 26px; border-top: 1px solid var(--border-hi); border-bottom: 1px solid var(--border-hi); position: relative; overflow: hidden; }
+  .stack-diagram .band-focus::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 0% 50%, rgba(3,200,181,0.18), transparent 50%), radial-gradient(ellipse at 100% 50%, rgba(39,221,223,0.08), transparent 55%); pointer-events: none; }
+  .stack-diagram .focus-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; position: relative; z-index: 1; }
+  .stack-diagram .focus-label::before { content: ''; width: 18px; height: 1px; background: var(--teal); }
+  .stack-diagram .focus-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 16px; line-height: 1.15; letter-spacing: -0.01em; position: relative; z-index: 1; }
+  .stack-diagram .focus-title em { font-style: italic; color: var(--teal); }
+  .stack-diagram .focus-pills { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .stack-diagram .pill { background: var(--bg-a); border: 1px solid var(--border-hi); border-radius: 999px; padding: 8px 14px; font-family: 'Barlow', sans-serif; font-size: 11px; font-weight: 500; color: var(--text); display: flex; align-items: center; gap: 7px; transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease; white-space: nowrap; }
+  .stack-diagram .pill:hover { transform: translateY(-2px); border-color: var(--teal); background: rgba(3,200,181,0.08); }
+  .stack-diagram .pill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 8px var(--teal); }
+  .stack-diagram .band-physical-sub { font-family: 'Cormorant Garamond', serif; font-size: 12px; font-style: italic; color: var(--text-muted); letter-spacing: 0; text-transform: none; margin-left: 4px; font-weight: 400; }
+  /* Hide brain icon in compact layout */
+  .stack-diagram .brain-icon { display: none; }
+  .bullet-icon { width: 32px; height: 32px; border-radius: 6px; background: var(--teal-dim); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--teal); margin-top: 2px; }
+
+  /* THESIS — bg-b */
+  /* WHY INFRATECH — bg-c */
+  .why-infra { background: var(--bg-c); padding: 140px 0; }
+  .why-inner { max-width: 1280px; margin: 0 auto; padding: 0 60px; }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+  .why-left { display: flex; flex-direction: column; }
+  .why-left .section-title { margin-bottom: 24px; }
+  .why-bullets { list-style: none; margin-top: 44px; display: flex; flex-direction: column; gap: 32px; }
+  .why-bullets li { display: flex; gap: 22px; }
+  .why-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--teal); opacity: 0.65; letter-spacing: 0.1em; width: 28px; flex-shrink: 0; padding-top: 6px; }
+  .why-body h4 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 10px; line-height: 1.2; }
+  .why-body p { font-size: 14.5px; color: var(--text-muted); line-height: 1.8; font-weight: 300; }
+  .why-body p strong { color: var(--text); font-weight: 500; }
+  .why-photo { position: relative; overflow: hidden; border-radius: 12px; aspect-ratio: 4 / 5; background: var(--surface2); box-shadow: 0 32px 80px rgba(0,0,0,0.55); }
+  .why-photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.72) saturate(0.85); transition: transform 0.8s ease, filter 0.4s; }
+  .why-photo:hover img { transform: scale(1.03); filter: brightness(0.82) saturate(1); }
+  .why-photo-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(3,200,181,0.14) 0%, transparent 60%); pointer-events: none; }
+  .why-photo-caption { position: absolute; bottom: 32px; left: 32px; right: 32px; font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; font-style: italic; color: var(--text); line-height: 1.4; z-index: 1; }
+  .why-photo-caption::before { content: ''; display: block; width: 40px; height: 1px; background: var(--teal); margin-bottom: 16px; }
+
+  .thesis { padding: 120px 0; background: var(--bg-b); }
+  .thesis-header { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 64px; align-items: end; }
+  .thesis-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .thesis-card { position: relative; overflow: hidden; border-radius: 4px; background: var(--surface2); cursor: default; transition: transform 0.3s ease, box-shadow 0.3s ease; aspect-ratio: 3/4; display: flex; flex-direction: column; justify-content: flex-end; }
+  .thesis-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,0.55); }
+  .thesis-card-photo { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.6s ease; filter: brightness(0.38) saturate(0.65); }
+  .thesis-card:hover .thesis-card-photo { transform: scale(1.05); filter: brightness(0.5) saturate(0.85); }
+  .thesis-card-tint { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(1,62,67,0.95) 0%, rgba(8,14,16,0.25) 60%, transparent 100%); }
+  .thesis-card-content { position: relative; z-index: 1; padding: 32px 28px; }
+  .thesis-card-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--teal); opacity: 0.7; margin-bottom: 10px; }
+  .thesis-card-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: var(--text); margin-bottom: 12px; line-height: 1.2; min-height: 58px; }
+  .thesis-card-body { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 18px; min-height: 112px; }
+  .thesis-tags { display: flex; flex-wrap: wrap; gap: 6px; min-height: 58px; align-content: flex-start; }
+  .tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(3,200,181,0.65); border: 1px solid rgba(3,200,181,0.22); padding: 4px 10px; border-radius: 2px; }
+
+  /* TEAM — bg-c */
+  .team { padding: 120px 0; background: var(--bg-c); }
+  .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 60px; }
+  .team-card { background: var(--bg-b); padding: 48px 44px; position: relative; overflow: hidden; transition: background 0.3s; }
+  .team-card:hover { background: var(--surface3); }
+  .team-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--teal), transparent); opacity: 0; transition: opacity 0.3s; }
+  .team-card:hover::after { opacity: 1; }
+  .member-role { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; }
+  .member-tagline { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--text); margin-bottom: 20px; line-height: 1.3; font-style: italic; }
+  .member-prev { display: flex; flex-wrap: wrap; gap: 8px; }
+  .firm-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); background: var(--surface3); border: 1px solid var(--border-hi); padding: 5px 12px; border-radius: 2px; }
+
+  /* MANIFESTO — bg-a */
+  .manifesto { padding: 140px 0; background: var(--bg-a); position: relative; overflow: hidden; }
+  .manifesto::before { content: 'VV'; position: absolute; top: -60px; right: -40px; font-family: 'Cormorant Garamond', serif; font-size: 360px; font-weight: 300; color: var(--teal); opacity: 0.024; line-height: 1; pointer-events: none; letter-spacing: -0.05em; }
+  .manifesto-inner { max-width: 860px; margin: 0 auto; padding: 0 60px; position: relative; z-index: 1; }
+  .man-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 36px; display: flex; align-items: center; gap: 10px; }
+  .man-tag::before { content: ''; width: 22px; height: 1px; background: var(--teal); opacity: 0.5; }
+  .man-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(38px, 5vw, 68px); font-weight: 300; line-height: 1.1; margin-bottom: 40px; }
+  .man-title em { font-style: italic; color: var(--teal); }
+  .man-intro { font-size: 19px; font-weight: 300; color: var(--text-muted); line-height: 1.85; margin-bottom: 52px; max-width: 720px; }
+  .man-intro strong { color: var(--text); font-weight: 500; }
+  .man-tenets { border-top: 1px solid var(--border); }
+  .tenet { border-bottom: 1px solid var(--border); }
+  .tenet-header { display: flex; align-items: center; gap: 28px; width: 100%; padding: 26px 0; background: transparent; border: none; cursor: pointer; text-align: left; color: inherit; font: inherit; transition: padding-left 0.35s ease; }
+  .tenet-header:hover,
+  .tenet.is-active .tenet-header { padding-left: 10px; }
+  .tenet-n { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--teal); opacity: 0.55; flex-shrink: 0; width: 26px; transition: opacity 0.3s ease; }
+  .tenet.is-active .tenet-n,
+  .tenet-header:hover .tenet-n { opacity: 1; }
+  .tenet-h4 { flex: 1; font-family: 'Cormorant Garamond', serif; font-size: clamp(20px, 2.1vw, 26px); font-weight: 500; color: var(--text); line-height: 1.25; transition: color 0.3s ease; }
+  .tenet.is-active .tenet-h4,
+  .tenet-header:hover .tenet-h4 { color: var(--teal); }
+  .tenet-toggle { flex-shrink: 0; width: 26px; height: 26px; position: relative; opacity: 0.55; transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+  .tenet-toggle::before,
+  .tenet-toggle::after { content: ''; position: absolute; top: 50%; left: 50%; background: var(--teal); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+  .tenet-toggle::before { width: 14px; height: 1px; transform: translate(-50%, -50%); }
+  .tenet-toggle::after { width: 1px; height: 14px; transform: translate(-50%, -50%); }
+  .tenet.is-active .tenet-toggle { opacity: 1; transform: rotate(90deg); }
+  .tenet.is-active .tenet-toggle::after { transform: translate(-50%, -50%) scaleY(0); }
+  .tenet-panel { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .tenet.is-active .tenet-panel { max-height: 400px; }
+  .tenet-panel-inner { padding: 0 54px 30px 54px; font-size: 15px; color: var(--text-muted); line-height: 1.8; font-weight: 300; max-width: 760px; }
+  .man-close { font-family: 'Cormorant Garamond', serif; font-size: clamp(20px, 2vw, 26px); font-style: italic; color: var(--teal); text-align: center; padding-top: 52px; line-height: 1.5; letter-spacing: -0.01em; }
+
+  /* KNOWLEDGE PREVIEW — bg-c */
+  .knowledge-preview { padding: 120px 0; background: var(--bg-c); }
+  .kp-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+  .kp-header-right a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: gap 0.2s; }
+  .kp-header-right a:hover { gap: 14px; }
+  .preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .preview-card { text-decoration: none; color: inherit; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; background: var(--bg-b); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .preview-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.45); }
+  .preview-card-img { height: 220px; overflow: hidden; position: relative; }
+  .preview-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; filter: brightness(0.72); }
+  .preview-card:hover .preview-card-img img { transform: scale(1.04); filter: brightness(0.85); }
+  .preview-card-img-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(13,26,28,0.8) 100%); }
+  .preview-card-body { padding: 24px 24px 28px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .preview-type { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; align-self: flex-start; }
+  .t-market-analysis { color: var(--teal); background: var(--teal-dim); }
+  .t-infratech-thesis { color: #8ab4d4; background: rgba(138,180,212,0.1); }
+  .t-portfolio-deep-dive { color: #d4a8ff; background: rgba(212,168,255,0.1); }
+  .t-founder-interview { color: #3dd68c; background: rgba(61,214,140,0.1); }
+  .t-quarterly-letter { color: #f0c674; background: rgba(240,198,116,0.1); }
+  .preview-empty, .preview-loading { grid-column: 1 / -1; text-align: center; padding: 48px 20px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+  .preview-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; line-height: 1.3; color: var(--text); flex: 1; }
+  .preview-meta { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid var(--border); margin-top: auto; }
+  .preview-date { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); }
+  .preview-arrow { color: var(--teal); font-size: 16px; transition: transform 0.2s; }
+  .preview-card:hover .preview-arrow { transform: translateX(4px); }
+
+  /* CTA — bg-dark */
+  .cta { padding: 140px 0; background: var(--bg-dark); text-align: center; position: relative; overflow: hidden; }
+  .cta::before { content: ''; position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(3,200,181,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+  .cta-inner { position: relative; z-index: 1; }
+  .cta-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 72px); font-weight: 300; line-height: 1.1; margin-bottom: 20px; }
+  .cta-title em { font-style: italic; color: var(--teal); }
+  .cta-sub { font-size: 16px; color: var(--text-muted); margin-bottom: 48px; font-weight: 300; }
+  .cta-btns { display: flex; justify-content: center; gap: 16px; }
+
+  /* FOOTER */
+  footer { background: var(--bg-a); border-top: 1px solid var(--border); padding: 60px 0 36px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 60px; }
+  .footer-top { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--border); }
+  .footer-brand p { font-size: 13px; color: var(--text-dim); line-height: 1.7; max-width: 220px; margin-top: 12px; }
+  .footer-col h5 { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 18px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--teal); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.06em; }
+  .footer-disc { font-size: 11px; color: var(--text-dim); max-width: 480px; text-align: right; line-height: 1.5; }
+
+  @media (max-width: 900px) {
+    nav, nav.scrolled { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .section-inner { padding: 0 24px; }
+    .opp-grid, .thesis-header, .team-grid { grid-template-columns: 1fr; gap: 40px; }
+    .thesis-cards { grid-template-columns: 1fr; }
+    .preview-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .manifesto-inner { padding: 0 24px; }
+    .why-infra { padding: 72px 0; }
+    .why-inner { padding: 0 24px; }
+    .why-grid { grid-template-columns: 1fr; gap: 40px; }
+    .why-photo { aspect-ratio: 3 / 2; }
+    .why-photo-caption { font-size: 18px; bottom: 20px; left: 20px; right: 20px; }
+    .what-inner { padding: 0 24px; }
+    .what-is { padding: 72px 0; }
+    .what-grid { grid-template-columns: 1fr; gap: 40px; }
+    .stack-diagram .icon-row.cols-7, .stack-diagram .icon-row.cols-6 { grid-template-columns: repeat(4, 1fr); gap: 18px 10px; }
+    .stack-diagram .icon-circle { width: 44px; height: 44px; }
+    .stack-diagram .icon-circle svg { width: 20px; height: 20px; }
+    .stack-diagram .icon-label { font-size: 11px; }
+    .stack-diagram .focus-title { font-size: 24px; }
+    .stack-diagram .pill { font-size: 12px; padding: 9px 15px; }
+    .stack-diagram .band-physical-sub { display: block; margin-left: 0; margin-top: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <svg height="36" viewBox="-5.1 0 241.5 228.1" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#03c8b5" d="M118.2,228c-13.1,0.1-25.9-7-32.4-19.4L4.2,53.2c-9.3-17.8-2.5-39.7,15.3-49C24.8,1.3,30.6,0,36.3,0C49.4,0,62,7.1,68.5,19.4l49.7,94.6l-31.9,60.8c-9.3,17.8-2.5,39.7,15.3,49C106.8,226.6,112.5,228,118.2,228z"/>
+      <path fill="#1997a8" d="M134.8,223.8c-5.3,2.8-11,4.1-16.7,4.2c-5.6,0-11.3-1.4-16.7-4.2c-17.8-9.3-24.6-31.3-15.3-49l31.9-60.8l31.9,60.8C159.4,192.5,152.6,214.5,134.8,223.8z M216.9,4.2C211.5,1.4,205.7,0,200,0c-13.1,0-25.7,7.1-32.2,19.4c-2.8,5.4-4.2,11.2-4.2,16.9c0,13.1,7.1,25.7,19.4,32.2c17.8,9.3,39.7,2.5,49-15.3c2.8-5.4,4.2-11.2,4.2-16.9C236.4,23.3,229.3,10.7,216.9,4.2z"/>
+    </svg>
+    <div class="nav-wordmark">Velocia Ventures<span>InfraTech Investment</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#opportunity">Opportunity</a></li>
+    <li><a href="#thesis">Investment Thesis</a></li>
+    <li><a href="#manifesto">Manifesto</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="knowledge-center.html">Knowledge Center</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Pioneering InfraTech Investment</div>
+    <h1 class="hero-title">Where <em>Technology</em><br>Meets Infrastructure</h1>
+    <p class="hero-sub">Velocia Ventures invests in InfraTech — the critical technology layer enabling AI-native, Next-Gen Infrastructure. We back the founders building the backbone of the intelligence era.</p>
+    <div class="hero-actions">
+      <a href="#thesis" class="btn-primary">Our Thesis <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="knowledge-center.html" class="btn-ghost">Knowledge Center <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- OPPORTUNITY — bg-b -->
+<section class="opportunity" id="opportunity">
+  <div class="section-inner">
+    <div class="opp-grid">
+      <div class="reveal">
+        <div class="section-tag">The Opportunity</div>
+        <h2 class="section-title">The Largest <em>Infrastructure Boom</em> in Decades</h2>
+        <p class="section-lead">AI is catalyzing a synchronized expansion across digital infrastructure and energy — a re-interpretation of global capital allocation into strategic sectors previously dominated by steel and concrete.</p>
+        <ul class="opp-points">
+          <li>Annual AI infrastructure investment is surpassing half a trillion dollars — rivaling historic US build cycles in telecom and energy combined.</li>
+          <li>Global spending on data centers, AI infrastructure, and the power supporting them is projected to reach $5 trillion cumulatively over the next five years.</li>
+          <li>Several future billion-dollar winners will emerge from Next Generation Infrastructure — today still mostly private and under-discovered by institutional capital.</li>
+        </ul>
+      </div>
+      <div class="stat-mosaic reveal">
+        <div class="stat-card">
+          <div class="stat-num">$650<span class="stat-unit">B</span></div>
+          <div class="stat-label">Hyperscaler CAPEX 2026F</div>
+          <div class="stat-desc">5× vs. early-2020s levels — the largest capital build in tech history</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">10<span class="stat-unit">%</span></div>
+          <div class="stat-label">Share of US Private Investment</div>
+          <div class="stat-desc">AI infra's rising share — up from just 3% in 2021</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">$5<span class="stat-unit">T</span></div>
+          <div class="stat-label">Global AI Infra Contest</div>
+          <div class="stat-desc">Cumulative spend on data centers, AI infra &amp; power over the next 5 years</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">5<span class="stat-unit">×</span></div>
+          <div class="stat-label">Decade Growth Projection</div>
+          <div class="stat-desc">Global AI infrastructure spending set to surge 5× this decade</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THESIS — bg-b -->
+<section class="thesis" id="thesis">
+  <div class="section-inner">
+    <div class="thesis-header">
+      <div class="reveal">
+        <div class="section-tag">Investment Thesis</div>
+        <h2 class="section-title">Three <em>InfraTech</em> Thematics</h2>
+      </div>
+      <div class="section-lead reveal">We envisage InfraTech and its enablers developing into a converging, multi-year investable opportunity. As the AI stack matures, different layers will capture outsized returns — and Velocia Ventures is positioned at each.</div>
+    </div>
+    <div class="thesis-cards reveal">
+      <div class="thesis-card">
+        <div class="thesis-card-photo" style="background-image:url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80');"></div>
+        <div class="thesis-card-tint"></div>
+        <div class="thesis-card-content">
+          <div class="thesis-card-num">01 —</div>
+          <div class="thesis-card-title">AI Compute Core</div>
+          <div class="thesis-card-body">Next-gen compute infrastructure purpose-built for AI — from training clusters to edge inference nodes. The software stack making AI workloads scalable and cost-effective at global scale.</div>
+          <div class="thesis-tags"><span class="tag">Silicon</span><span class="tag">Neoclouds</span><span class="tag">Cloud Infra</span><span class="tag">Data Infra</span><span class="tag">Storage</span><span class="tag">Data Storage</span><span class="tag">Cooling</span></div>
+        </div>
+      </div>
+      <div class="thesis-card">
+        <div class="thesis-card-photo" style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=85');"></div>
+        <div class="thesis-card-tint"></div>
+        <div class="thesis-card-content">
+          <div class="thesis-card-num">02 —</div>
+          <div class="thesis-card-title">Autonomous Infra Management</div>
+          <div class="thesis-card-body">Autonomous infrastructure systems that sense, learn, and adapt — optimizing power, cooling, and network without human input. The nervous system of next-gen data centers and smart grids.</div>
+          <div class="thesis-tags"><span class="tag">AI-powered Automation</span><span class="tag">Energy Management</span><span class="tag">Energy Storage</span><span class="tag">SW-defined Power</span><span class="tag">Cloud Orchestration</span></div>
+        </div>
+      </div>
+      <div class="thesis-card">
+        <div class="thesis-card-photo" style="background-image:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=85');"></div>
+        <div class="thesis-card-tint"></div>
+        <div class="thesis-card-content">
+          <div class="thesis-card-num">03 —</div>
+          <div class="thesis-card-title">Distributed AI Fabric</div>
+          <div class="thesis-card-body">Distributed systems bringing AI inference to the edge — enabling real-time decisioning at scale. The connective tissue linking compute to the world's intelligent applications and endpoints.</div>
+          <div class="thesis-tags"><span class="tag">Edge Cloud</span><span class="tag">AI Orchestration</span><span class="tag">5G/6G Compute</span><span class="tag">Cloud Connectivity</span><span class="tag">Sky Computing</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY INFRATECH — bg-c -->
+<section class="why-infra" id="why">
+  <div class="why-inner">
+    <div class="why-grid">
+
+      <div class="why-left reveal">
+        <div class="section-tag">Why InfraTech</div>
+        <h2 class="section-title">An <em>All-Weather</em><br>Asset Class</h2>
+        <p class="section-lead">InfraTech combines the defensive profile of essential infrastructure with the compounding scalability of software — a category that performs in every market regime.</p>
+        <ul class="why-bullets">
+          <li>
+            <div class="why-num">01</div>
+            <div class="why-body">
+              <h4>Highly Resilient</h4>
+              <p>Mission-critical, B2B, recurring-revenue — durable through every capital cycle.</p>
+            </div>
+          </li>
+          <li>
+            <div class="why-num">02</div>
+            <div class="why-body">
+              <h4>Highly Scalable</h4>
+              <p>Software-centric, IP-rich, asset-light — margins expand with scale.</p>
+            </div>
+          </li>
+          <li>
+            <div class="why-num">03</div>
+            <div class="why-body">
+              <h4>High Growth Profile</h4>
+              <p>Multi-decade AI tailwinds, compounding across every industry.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="why-photo reveal">
+        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=900&h=1200&q=90" alt="Modern AI data center with rows of server racks">
+        <div class="why-photo-overlay"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO — bg-a -->
+<section class="manifesto" id="manifesto">
+  <div class="manifesto-inner">
+    <div class="man-tag">Our Manifesto</div>
+    <h2 class="man-title">We Invest in Those<br>Who <em>Wire the Future</em></h2>
+    <p class="man-intro">A manifesto is a promise. What follows is ours — the set of convictions that govern every investment we make, every founder we back, every dollar we deploy. These are not opinions we hold lightly. They are <strong>the reason Velocia exists.</strong></p>
+    <div class="man-tenets">
+      <div class="tenet is-active">
+        <button class="tenet-header" type="button" aria-expanded="true">
+          <span class="tenet-n">I</span>
+          <span class="tenet-h4">Concrete Built the Last Era. Code Builds the Next.</span>
+          <span class="tenet-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="tenet-panel">
+          <div class="tenet-panel-inner">Steel and wires built the last century. Code and AI are building the next. Tomorrow's infrastructure will be software-defined, AI-operated, and self-optimizing. The companies shipping that transformation own the next decade.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <button class="tenet-header" type="button" aria-expanded="false">
+          <span class="tenet-n">II</span>
+          <span class="tenet-h4">Specialization Eats Generalism.</span>
+          <span class="tenet-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="tenet-panel">
+          <div class="tenet-panel-inner">Generalist capital was a luxury of cheap money. That era is over. InfraTech demands exceptional focus — deep domain expertise is the prerequisite, not the differentiator. In a world of generalists, depth is the only edge that compounds.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <button class="tenet-header" type="button" aria-expanded="false">
+          <span class="tenet-n">III</span>
+          <span class="tenet-h4">Mission-Critical or Don't Bother.</span>
+          <span class="tenet-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="tenet-panel">
+          <div class="tenet-panel-inner">We back companies you can't turn off. Software so embedded in operations that replacing it is unthinkable. Customer lock-in measured in years, not months. In a world where most moats evaporate in a downturn, mission-critical adoption is the only defensibility that lasts.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <button class="tenet-header" type="button" aria-expanded="false">
+          <span class="tenet-n">IV</span>
+          <span class="tenet-h4">The Backbone Wins.</span>
+          <span class="tenet-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="tenet-panel">
+          <div class="tenet-panel-inner">Infrastructure outlasts every application built on top of it. Cisco outlasted Pets.com. The grid outlasted GE. AWS outlasted Heroku. Bet on the layer that doesn't go out of style — the one that earns a toll on every transaction crossing it.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <button class="tenet-header" type="button" aria-expanded="false">
+          <span class="tenet-n">V</span>
+          <span class="tenet-h4">The Bottleneck Is the Opportunity.</span>
+          <span class="tenet-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="tenet-panel">
+          <div class="tenet-panel-inner">Every constraint in the AI stack is a category waiting to be born. Yesterday's compute ceiling built Nvidia. Tomorrow's energy, cooling, and orchestration ceilings will build its successors. We invest where the bottleneck is sharpest — because the hardest problem in a stack is also its most valuable.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <button class="tenet-header" type="button" aria-expanded="false">
+          <span class="tenet-n">VI</span>
+          <span class="tenet-h4">We Back Cash, Not Narrative.</span>
+          <span class="tenet-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="tenet-panel">
+          <div class="tenet-panel-inner">The last decade of venture optimized for paper markups that rarely turned into distributions. We underwrite founders obsessed with generating cash and compounding it — because real revenue is the only signal that doesn't need a follow-on round to prove itself.</div>
+        </div>
+      </div>
+      <div class="tenet">
+        <button class="tenet-header" type="button" aria-expanded="false">
+          <span class="tenet-n">VII</span>
+          <span class="tenet-h4">No Ecosystem, No AI.</span>
+          <span class="tenet-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="tenet-panel">
+          <div class="tenet-panel-inner">A model alone is inert. Intelligence scales only when power, silicon, networks, cooling, orchestration, and the software binding them work in concert. Break a single layer and the stack goes dark. We invest across the substrate — not the surface.</div>
+        </div>
+      </div>
+    </div>
+    <div class="man-close">We don't fund optimism.<br>We fund inevitability.</div>
+  </div>
+</section>
+
+<!-- KNOWLEDGE PREVIEW — bg-c -->
+<section class="knowledge-preview" id="insights">
+  <div class="section-inner">
+    <div class="kp-header">
+      <div class="reveal">
+        <div class="section-tag">Knowledge Center</div>
+        <h2 class="section-title">InfraTech <em>Insights</em></h2>
+      </div>
+      <div class="kp-header-right reveal"><a href="knowledge-center.html">All Articles →</a></div>
+    </div>
+    <div class="preview-grid reveal" id="insights-grid">
+      <div class="preview-loading">Loading latest insights…</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <div class="section-inner">
+    <div class="cta-inner reveal">
+      <h2 class="cta-title">Ready to Build<br><em>InfraTech Together?</em></h2>
+      <p class="cta-sub">Whether you are a founder building InfraTech, an LP seeking exposure, or a strategic partner — we want to hear from you.</p>
+      <div class="cta-btns">
+        <a href="mailto:contact@velociaventures.com" class="btn-primary">Get in Touch <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="knowledge-center.html" class="btn-outline">Explore Insights</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <svg height="38" viewBox="-5.1 0 241.5 228.1" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:12px;">
+          <path fill="#03c8b5" d="M118.2,228c-13.1,0.1-25.9-7-32.4-19.4L4.2,53.2c-9.3-17.8-2.5-39.7,15.3-49C24.8,1.3,30.6,0,36.3,0C49.4,0,62,7.1,68.5,19.4l49.7,94.6l-31.9,60.8c-9.3,17.8-2.5,39.7,15.3,49C106.8,226.6,112.5,228,118.2,228z"/>
+          <path fill="#1997a8" d="M134.8,223.8c-5.3,2.8-11,4.1-16.7,4.2c-5.6,0-11.3-1.4-16.7-4.2c-17.8-9.3-24.6-31.3-15.3-49l31.9-60.8l31.9,60.8C159.4,192.5,152.6,214.5,134.8,223.8z M216.9,4.2C211.5,1.4,205.7,0,200,0c-13.1,0-25.7,7.1-32.2,19.4c-2.8,5.4-4.2,11.2-4.2,16.9c0,13.1,7.1,25.7,19.4,32.2c17.8,9.3,39.7,2.5,49-15.3c2.8-5.4,4.2-11.2,4.2-16.9C236.4,23.3,229.3,10.7,216.9,4.2z"/>
+        </svg>
+        <p>InfraTech investment firm dedicated to building the backbone of the AI economy.</p>
+      </div>
+      <div class="footer-col">
+        <h5>The Firm</h5>
+        <ul>
+          <li><a href="#why">Why InfraTech</a></li>
+          <li><a href="#thesis">Investment Thesis</a></li>
+          <li><a href="#manifesto">Manifesto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Insights</h5>
+        <ul>
+          <li><a href="knowledge-center.html">Knowledge Center</a></li>
+          <li><a href="knowledge-center.html">Market Reports</a></li>
+          <li><a href="knowledge-center.html">Analysis</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="#contact">For InfraTech Founders</a></li>
+          <li><a href="#contact">For Limited Partners</a></li>
+          <li><a href="#contact">For Partners</a></li>
+          <li><a href="mailto:contact@velociaventures.com">contact@velociaventures.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Velocia Ventures. All rights reserved.</div>
+      <div class="footer-disc">For informational purposes only. Not an offer to sell or solicitation to buy securities. Past performance is not indicative of future results.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); if (t) t.scrollIntoView({ behavior: 'smooth' }); });
+  });
+
+  // ============ INFRATECH INSIGHTS — fetch latest 3 from Sanity ============
+  const SANITY = {
+    projectId: '6relgvmz',
+    dataset: 'velocia_production',
+    apiVersion: '2024-05-15',
+  };
+
+  const INSIGHTS_QUERY = `*[_type == "article" && defined(publishedAt) && publishedAt <= now()] | order(publishedAt desc)[0...3] {
+    _id,
+    title,
+    "slug": slug.current,
+    publishedAt,
+    category,
+    "heroImageUrl": heroImage.asset->url,
+    "heroImageAlt": heroImage.alt
+  }`;
+
+  const CATEGORY_LABELS = {
+    'market-analysis': 'Market Analysis',
+    'infratech-thesis': 'InfraTech Thesis',
+    'portfolio-deep-dive': 'Portfolio Deep Dive',
+    'founder-interview': 'Founder Interview',
+    'quarterly-letter': 'Quarterly Letter',
+  };
+
+  const FALLBACK_IMAGES = {
+    'market-analysis': 'https://images.unsplash.com/photo-1639322537228-f710d846310a?w=700&q=80',
+    'infratech-thesis': 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=700&q=80',
+    'portfolio-deep-dive': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80',
+    'founder-interview': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&q=80',
+    'quarterly-letter': 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=700&q=80',
+  };
+
+  function escHtml(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return '';
+    try { return new Date(iso).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }); }
+    catch (e) { return ''; }
+  }
+
+  async function loadInsights() {
+    const grid = document.getElementById('insights-grid');
+    if (!grid) return;
+    try {
+      const url = `https://${SANITY.projectId}.apicdn.sanity.io/v${SANITY.apiVersion}/data/query/${SANITY.dataset}?query=${encodeURIComponent(INSIGHTS_QUERY)}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Sanity API ' + res.status);
+      const body = await res.json();
+      const articles = body.result || [];
+      if (articles.length === 0) {
+        grid.innerHTML = `<div class="preview-empty">No articles published yet — check back soon.</div>`;
+        return;
+      }
+      grid.innerHTML = articles.map((a) => {
+        const img = a.heroImageUrl || FALLBACK_IMAGES[a.category] || FALLBACK_IMAGES['market-analysis'];
+        const alt = a.heroImageAlt || a.title || '';
+        const label = CATEGORY_LABELS[a.category] || 'Article';
+        const date = fmtDate(a.publishedAt);
+        const href = `article.html?slug=${encodeURIComponent(a.slug)}`;
+        return `
+          <a href="${href}" class="preview-card">
+            <div class="preview-card-img">
+              <img src="${escHtml(img)}" alt="${escHtml(alt)}">
+              <div class="preview-card-img-overlay"></div>
+            </div>
+            <div class="preview-card-body">
+              <span class="preview-type t-${escHtml(a.category)}">${escHtml(label)}</span>
+              <div class="preview-title">${escHtml(a.title)}</div>
+              <div class="preview-meta"><span class="preview-date">${escHtml(date)}</span><span class="preview-arrow">→</span></div>
+            </div>
+          </a>
+        `;
+      }).join('');
+    } catch (err) {
+      grid.innerHTML = `<div class="preview-empty">Insights are temporarily unavailable. <a href="knowledge-center.html" style="color:var(--teal);text-decoration:underline;">Visit the Knowledge Center →</a></div>`;
+      console.error('Failed to load insights:', err);
+    }
+  }
+  loadInsights();
+
+  // Manifesto accordion: click to toggle, hover to open (desktop)
+  (function initManifesto(){
+    const tenets = document.querySelectorAll('.tenet');
+    if (!tenets.length) return;
+    const isTouch = window.matchMedia('(hover: none)').matches;
+
+    function openTenet(target) {
+      tenets.forEach(t => {
+        const header = t.querySelector('.tenet-header');
+        if (t === target) {
+          t.classList.add('is-active');
+          if (header) header.setAttribute('aria-expanded', 'true');
+        } else {
+          t.classList.remove('is-active');
+          if (header) header.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    tenets.forEach(tenet => {
+      const header = tenet.querySelector('.tenet-header');
+      if (!header) return;
+      header.addEventListener('click', () => openTenet(tenet));
+      if (!isTouch) {
+        tenet.addEventListener('mouseenter', () => openTenet(tenet));
+      }
+    });
+  })();
+</script>
+</body>
+</html>
