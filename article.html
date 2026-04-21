@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velocia Ventures</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #03C8B5; --teal-bright: #27DDDF; --teal-dark: #1997A8;
+    --ink: #080e10; --bg-dark: #013E43;
+    --bg-a: #080e10; --bg-b: #0d1a1c; --bg-c: #111f22;
+    --surface2: #132022; --surface3: #1a2c30;
+    --border: rgba(3,200,181,0.09); --border-hi: rgba(3,200,181,0.20);
+    --text: #e2edeb; --text-muted: #78a49f; --text-dim: #375e5a;
+    --teal-dim: rgba(3,200,181,0.07);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Barlow', sans-serif; background: var(--bg-a); color: var(--text); overflow-x: hidden; line-height: 1.6; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 18px 60px; border-bottom: 1px solid var(--border); background: rgba(8,14,16,0.96); backdrop-filter: blur(24px); }
+  .nav-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .nav-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); line-height: 1.2; }
+  .nav-wordmark span { display: block; font-weight: 300; font-size: 10px; letter-spacing: 0.2em; color: var(--teal); text-transform: uppercase; font-family: 'DM Mono', monospace; }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--teal); }
+  .nav-cta { color: var(--teal) !important; border: 1px solid rgba(3,200,181,0.4); padding: 8px 22px; border-radius: 2px; }
+
+  /* Article hero */
+  .article-hero { padding: 140px 60px 60px; background: linear-gradient(180deg, var(--bg-a) 0%, var(--bg-b) 100%); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  .article-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(3,200,181,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(3,200,181,0.025) 1px, transparent 1px); background-size: 64px 64px; }
+  .article-hero-inner { max-width: 820px; margin: 0 auto; position: relative; z-index: 1; }
+  .a-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .a-tag::before { content: ''; width: 22px; height: 1px; background: var(--teal); opacity: 0.5; }
+  .a-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 5vw, 60px); font-weight: 300; line-height: 1.1; margin-bottom: 20px; color: var(--text); }
+  .a-subtitle { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(18px, 2vw, 24px); font-weight: 300; color: var(--text-muted); line-height: 1.5; margin-bottom: 36px; }
+  .a-byline { display: flex; flex-wrap: wrap; gap: 20px; padding-top: 24px; border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--text-dim); }
+  .a-byline strong { color: var(--text-muted); font-weight: 400; }
+
+  .a-hero-image { max-width: 1100px; margin: 0 auto; padding: 0 60px; margin-top: -20px; position: relative; z-index: 1; }
+  .a-hero-image img { width: 100%; display: block; border-radius: 12px; }
+
+  /* Article body */
+  .article-body { max-width: 720px; margin: 0 auto; padding: 60px 60px 120px; font-size: 18px; line-height: 1.8; color: var(--text); font-weight: 300; }
+  .article-body p { margin-bottom: 1.4em; }
+  .article-body h2 { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 400; color: var(--text); line-height: 1.2; margin: 2em 0 0.7em; }
+  .article-body h3 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; color: var(--text); line-height: 1.25; margin: 1.8em 0 0.6em; }
+  .article-body h4 { font-family: 'Barlow', sans-serif; font-size: 18px; font-weight: 500; color: var(--teal); letter-spacing: 0.02em; margin: 1.6em 0 0.5em; }
+  .article-body blockquote { border-left: 2px solid var(--teal); padding: 8px 0 8px 28px; margin: 1.8em 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 22px; line-height: 1.5; color: var(--text-muted); }
+  .article-body ul, .article-body ol { margin: 1.2em 0 1.4em 28px; }
+  .article-body li { margin-bottom: 0.5em; }
+  .article-body a { color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(3,200,181,0.4); transition: border-color 0.15s; }
+  .article-body a:hover { border-bottom-color: var(--teal); }
+  .article-body strong { font-weight: 500; color: var(--text); }
+  .article-body em { font-style: italic; }
+  .article-body .inline-img { margin: 2em 0; }
+  .article-body .inline-img img { width: 100%; display: block; border-radius: 8px; }
+  .article-body .inline-img figcaption { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 10px; letter-spacing: 0.04em; }
+
+  /* Tags / back / footer */
+  .article-tags { max-width: 720px; margin: 40px auto 0; padding: 0 60px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .article-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); background: var(--surface2); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); }
+  .article-back { max-width: 720px; margin: 40px auto 0; padding: 0 60px; }
+  .article-back a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); text-decoration: none; }
+
+  /* State messages */
+  .state-msg { text-align: center; padding: 160px 20px 80px; font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--text-muted); line-height: 1.5; }
+  .state-msg .state-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); display: block; margin-bottom: 14px; }
+  .state-msg a { color: var(--teal); text-decoration: none; border-bottom: 1px solid var(--teal); }
+  .state-error-detail { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); margin-top: 16px; line-height: 1.6; }
+
+  footer { background: var(--bg-a); border-top: 1px solid var(--border); padding: 48px 60px 32px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.06em; }
+  .footer-back a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); text-decoration: none; }
+
+  @media (max-width: 900px) {
+    nav { padding: 14px 24px; } .nav-links { display: none; }
+    .article-hero { padding: 110px 24px 40px; }
+    .a-hero-image { padding: 0 24px; }
+    .article-body { padding: 40px 24px 80px; font-size: 17px; }
+    .article-tags, .article-back { padding: 0 24px; }
+    footer { padding: 36px 24px; flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg height="34" viewBox="-5.1 0 241.5 228.1" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#03c8b5" d="M118.2,228c-13.1,0.1-25.9-7-32.4-19.4L4.2,53.2c-9.3-17.8-2.5-39.7,15.3-49C24.8,1.3,30.6,0,36.3,0C49.4,0,62,7.1,68.5,19.4l49.7,94.6l-31.9,60.8c-9.3,17.8-2.5,39.7,15.3,49C106.8,226.6,112.5,228,118.2,228z"/>
+      <path fill="#1997a8" d="M134.8,223.8c-5.3,2.8-11,4.1-16.7,4.2c-5.6,0-11.3-1.4-16.7-4.2c-17.8-9.3-24.6-31.3-15.3-49l31.9-60.8l31.9,60.8C159.4,192.5,152.6,214.5,134.8,223.8z M216.9,4.2C211.5,1.4,205.7,0,200,0c-13.1,0-25.7,7.1-32.2,19.4c-2.8,5.4-4.2,11.2-4.2,16.9c0,13.1,7.1,25.7,19.4,32.2c17.8,9.3,39.7,2.5,49-15.3c2.8-5.4,4.2-11.2,4.2-16.9C236.4,23.3,229.3,10.7,216.9,4.2z"/>
+    </svg>
+    <div class="nav-wordmark">Velocia Ventures<span>InfraTech Investment</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#what-is">InfraTech</a></li>
+    <li><a href="index.html#thesis">Thesis</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="index.html#manifesto">Manifesto</a></li>
+    <li><a href="knowledge-center.html" class="active">Insights</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<div id="article-root">
+  <div class="state-msg">
+    <span class="state-tag">Loading</span>
+    Loading article…
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copy">© 2025 Velocia Ventures. All rights reserved. · For informational purposes only.</div>
+  <div class="footer-back"><a href="knowledge-center.html">← Back to Insights</a></div>
+</footer>
+
+<script>
+  const SANITY = {
+    projectId: '6relgvmz',
+    dataset: 'velocia_production',
+    apiVersion: '2024-05-15',
+  };
+
+  const CATEGORY_LABELS = {
+    'market-analysis': 'Market Analysis',
+    'infratech-thesis': 'InfraTech Thesis',
+    'portfolio-deep-dive': 'Portfolio Deep Dive',
+    'founder-interview': 'Founder Interview',
+    'quarterly-letter': 'Quarterly Letter',
+  };
+
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  function getSlug() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('slug');
+  }
+
+  // ------------------------------------------------------------------
+  // Minimal Portable Text → HTML renderer.
+  // Handles paragraphs, h2/h3/h4, blockquote, ul/ol, strong/em, links,
+  // and inline images. Good enough for most Velocia-style articles.
+  // ------------------------------------------------------------------
+  function renderInline(block) {
+    const marksById = {};
+    (block.markDefs || []).forEach((m) => { marksById[m._key] = m; });
+    return (block.children || []).map((child) => {
+      let html = escapeHtml(child.text || '');
+      const marks = child.marks || [];
+      marks.forEach((m) => {
+        if (m === 'strong') html = `<strong>${html}</strong>`;
+        else if (m === 'em') html = `<em>${html}</em>`;
+        else if (marksById[m] && marksById[m]._type === 'link') {
+          const href = marksById[m].href || '#';
+          html = `<a href="${escapeHtml(href)}" target="_blank" rel="noopener">${html}</a>`;
+        }
+      });
+      return html;
+    }).join('');
+  }
+
+  function renderBlocks(blocks) {
+    if (!Array.isArray(blocks)) return '';
+    let html = '';
+    let listBuffer = null; // { type: 'ul'|'ol', items: [] }
+
+    const flushList = () => {
+      if (listBuffer) {
+        const tag = listBuffer.type;
+        html += `<${tag}>${listBuffer.items.map((it) => `<li>${it}</li>`).join('')}</${tag}>`;
+        listBuffer = null;
+      }
+    };
+
+    for (const block of blocks) {
+      if (block._type === 'image') {
+        flushList();
+        const url = block.asset && block.asset.url;
+        if (!url) continue;
+        const alt = block.alt || '';
+        const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
+        html += `<figure class="inline-img"><img src="${escapeHtml(url)}" alt="${escapeHtml(alt)}">${caption}</figure>`;
+        continue;
+      }
+
+      if (block._type === 'block') {
+        const listItem = block.listItem; // 'bullet' | 'number' | undefined
+        if (listItem) {
+          const type = listItem === 'number' ? 'ol' : 'ul';
+          if (!listBuffer || listBuffer.type !== type) {
+            flushList();
+            listBuffer = { type, items: [] };
+          }
+          listBuffer.items.push(renderInline(block));
+          continue;
+        }
+        flushList();
+        const style = block.style || 'normal';
+        const inner = renderInline(block);
+        if (style === 'h2') html += `<h2>${inner}</h2>`;
+        else if (style === 'h3') html += `<h3>${inner}</h3>`;
+        else if (style === 'h4') html += `<h4>${inner}</h4>`;
+        else if (style === 'blockquote') html += `<blockquote>${inner}</blockquote>`;
+        else html += `<p>${inner}</p>`;
+      }
+    }
+    flushList();
+    return html;
+  }
+
+  // ------------------------------------------------------------------
+  async function fetchArticle(slug) {
+    const query = `*[_type == "article" && slug.current == $slug][0]{
+      _id,
+      title,
+      subtitle,
+      author,
+      publishedAt,
+      category,
+      tags,
+      excerpt,
+      "heroImageUrl": heroImage.asset->url,
+      "heroImageAlt": heroImage.alt,
+      seoTitle,
+      seoDescription,
+      body[]{
+        ...,
+        _type == "image" => { ..., "asset": asset-> }
+      }
+    }`;
+    const url = `https://${SANITY.projectId}.apicdn.sanity.io/v${SANITY.apiVersion}/data/query/${SANITY.dataset}?query=${encodeURIComponent(query)}&%24slug=${encodeURIComponent(JSON.stringify(slug))}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Sanity API returned ${res.status}: ${await res.text()}`);
+    const body = await res.json();
+    return body.result;
+  }
+
+  function render(article) {
+    const root = document.getElementById('article-root');
+    const dateStr = formatDate(article.publishedAt);
+    const categoryLabel = CATEGORY_LABELS[article.category] || 'Article';
+    const heroImg = article.heroImageUrl
+      ? `<div class="a-hero-image"><img src="${escapeHtml(article.heroImageUrl)}" alt="${escapeHtml(article.heroImageAlt || article.title)}"></div>`
+      : '';
+
+    const tagsHtml = (article.tags && article.tags.length)
+      ? `<div class="article-tags">${article.tags.map((t) => `<span class="article-tag">${escapeHtml(t)}</span>`).join('')}</div>`
+      : '';
+
+    root.innerHTML = `
+      <div class="article-hero">
+        <div class="article-hero-inner">
+          <div class="a-tag">${escapeHtml(categoryLabel)}</div>
+          <h1 class="a-title">${escapeHtml(article.title)}</h1>
+          ${article.subtitle ? `<p class="a-subtitle">${escapeHtml(article.subtitle)}</p>` : ''}
+          <div class="a-byline">
+            ${article.author ? `<span><strong>${escapeHtml(article.author)}</strong></span>` : ''}
+            ${dateStr ? `<span>${escapeHtml(dateStr)}</span>` : ''}
+          </div>
+        </div>
+      </div>
+      ${heroImg}
+      <div class="article-body">${renderBlocks(article.body || [])}</div>
+      ${tagsHtml}
+      <div class="article-back"><a href="knowledge-center.html">← Back to all articles</a></div>
+    `;
+
+    // Update tab title + meta description
+    document.title = `${article.seoTitle || article.title} — Velocia Ventures`;
+    const metaDesc = article.seoDescription || article.excerpt;
+    if (metaDesc) {
+      let m = document.querySelector('meta[name="description"]');
+      if (!m) { m = document.createElement('meta'); m.name = 'description'; document.head.appendChild(m); }
+      m.content = metaDesc;
+    }
+  }
+
+  function renderNotFound() {
+    document.getElementById('article-root').innerHTML = `
+      <div class="state-msg">
+        <span class="state-tag">Article not found</span>
+        The article you're looking for doesn't exist, or hasn't been published yet.
+        <div style="margin-top:20px;"><a href="knowledge-center.html">← Back to all articles</a></div>
+      </div>`;
+  }
+
+  function renderError(err) {
+    const isCors = /fetch|network|cors/i.test(String(err && err.message));
+    document.getElementById('article-root').innerHTML = `
+      <div class="state-msg">
+        <span class="state-tag">Couldn't load article</span>
+        ${isCors
+          ? 'Your browser was blocked from reading Velocia\'s Sanity project. Add this website\'s URL to your Sanity CORS origins.'
+          : 'Something went wrong loading this article.'}
+        <div class="state-error-detail">${escapeHtml(String(err && err.message || err))}</div>
+      </div>`;
+  }
+
+  const slug = getSlug();
+  if (!slug) {
+    renderNotFound();
+  } else {
+    fetchArticle(slug)
+      .then((article) => { article ? render(article) : renderNotFound(); })
+      .catch((err) => { console.error('[Velocia] Article fetch failed:', err); renderError(err); });
+  }
+</script>
+</body>
+</html>
